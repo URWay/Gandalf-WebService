@@ -9,20 +9,55 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 @Path("/produtos")
 public class Produtos {
     
+    // RETORNA TODOS OS PRODUTOS
     @GET
     public String getProdutos() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-       
-        return "";
+        String retorno = "";
+        
+        try{
+            Connection con = Conexao.get().conn();
 
+
+           PreparedStatement preparedStatement = null;
+
+
+           String query = "SELECT "
+                            + "nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
+                            + "FROM Produtos";
+
+           preparedStatement = con.prepareStatement(query);
+           preparedStatement.setInt(1, 1001);
+
+           ResultSet rs = preparedStatement.executeQuery();
+          
+        while (rs.next()) {
+
+                String userid = rs.getString("nomeProduto");
+                String username = rs.getString("descProduto");
+
+               retorno += "Produto : " + userid;
+               retorno += "Descrição : " + username + "\n";
+
+        }       
+        
+        }catch(Exception ex){
+           
+       }
+        return(retorno);
     }
     
+    
+    // QUANTO SE TEM O ID - PRODUTO DETALHADO
     @GET
-    public String getProduto(@QueryParam("id") String id)  throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-         String retorno = "";
+    @Path("/{param}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getProduto(@PathParam("param") String id){
+        String retorno = "";
         try{
              Connection con = Conexao.get().conn();
     
@@ -30,7 +65,10 @@ public class Produtos {
         PreparedStatement preparedStatement = null;
        
         
-        String query = "SELECT * FROM Produtos WHERE idProduto = "+id;
+        String query = "SELECT "
+                            + "nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
+                            + "FROM Produtos"
+                            + "WHERE idProduto = "+id;
         
         preparedStatement = con.prepareStatement(query);
 	preparedStatement.setInt(1, 1001);
