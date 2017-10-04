@@ -7,6 +7,15 @@
 # BlueJ files
 *.ctxt
 
+# NetBeans files and folders
+PI4/nbproject/private/
+PI4/build/
+PI4/nbbuild/
+PI4/dist/
+PI4/nbdist/
+PI4/nbactions.xml
+PI4/nb-configuration.xml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
