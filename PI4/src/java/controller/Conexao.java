@@ -20,8 +20,6 @@ public class Conexao {
 			instance = new Conexao();
 		return instance;
 	}
- 
-    
     public Connection conn () throws Exception {
             String hostName = "gandalf-pi.database.windows.net";
             String dbName = "gandalf";

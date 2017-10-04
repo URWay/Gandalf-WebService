@@ -22,14 +22,13 @@ public class Produtos {
     
     @GET
     public String getProduto(@QueryParam("id") String id)  throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-       try{
+         String retorno = "";
+        try{
              Connection con = Conexao.get().conn();
-       }catch(Exception ex){
-           
-       }
+    
       
         PreparedStatement preparedStatement = null;
-        String retorno = "";
+       
         
         String query = "SELECT * FROM Produtos WHERE idProduto = "+id;
         
@@ -47,6 +46,10 @@ public class Produtos {
                retorno += "Descrição : " + username + "\n";
 
         }       
+        
+        }catch(Exception ex){
+           
+       }
         return(retorno);
     }
 }
