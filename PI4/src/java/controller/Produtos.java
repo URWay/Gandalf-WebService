@@ -15,29 +15,9 @@ public class Produtos {
     
     @GET
     public String getProdutos() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        Conexao con = new Conexao();
-        PreparedStatement preparedStatement = null;
-        String retorno = "";
-        
-        String query = "SELECT * FROM Produtos";
-        
-        
-        preparedStatement = con.prepareStatement(query);
-	preparedStatement.setInt(1, 1001);
-        
-        ResultSet rs = preparedStatement.executeQuery();
-          
-        while (rs.next()) {
+       
+        return "";
 
-                String userid = rs.getString("nomeProduto");
-                String username = rs.getString("descProduto");
-
-               retorno += "Produto : " + userid;
-               retorno += "Descrição : " + username + "\n";
-
-        }
-        
-        return(retorno);
     }
     
     @GET
