@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +37,36 @@ public class Produtos {
 
         }
         
-        return retorno;
+        return(retorno);
     }
     
+    @GET
+    public String getProduto(@QueryParam("id") String id)  throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+       try{
+             Connection con = Conexao.get().conn();
+       }catch(Exception ex){
+           
+       }
+      
+        PreparedStatement preparedStatement = null;
+        String retorno = "";
+        
+        String query = "SELECT * FROM Produtos WHERE idProduto = "+id;
+        
+        preparedStatement = con.prepareStatement(query);
+	preparedStatement.setInt(1, 1001);
+        
+        ResultSet rs = preparedStatement.executeQuery();
+          
+        while (rs.next()) {
+
+                String userid = rs.getString("nomeProduto");
+                String username = rs.getString("descProduto");
+
+               retorno += "Produto : " + userid;
+               retorno += "Descrição : " + username + "\n";
+
+        }       
+        return(retorno);
+    }
 }

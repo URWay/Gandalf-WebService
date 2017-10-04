@@ -10,20 +10,32 @@ import modelos.Usuario;
  * @author jefferson
  */
 
+
 public class Conexao {
-    Connection con = null;
+      
+    private static Conexao instance = null;
+    private Conexao () {};
+    public static Conexao get () {
+		if (instance == null)
+			instance = new Conexao();
+		return instance;
+	}
+ 
     
-    public Conexao() throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
-        String url = "gandalf-pi.database.windows.net";
-        String user = "TSI";
-        String password = "SistemasInternet123";
+    public Connection conn () throws Exception {
+            String hostName = "gandalf-pi.database.windows.net";
+            String dbName = "gandalf";
+            String user = "TSI";
+            String password = "SistemasInternet123";
+            String url = String.format("jdbc:sqlserver://%s:1433;database=%s;user=%s;password=%s;encrypt=true;hostNameInCertificate=*.database.windows.net;loginTimeout=30;", hostName, dbName, user, password);
+     
         
-        Class.forName("com.mysql.jdbc.Driver").newInstance();
-        con = DriverManager.getConnection(url, user, password);
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");	
+            Connection conn = DriverManager.getConnection(url);
+            return conn;
     }
 
-    PreparedStatement prepareStatement(String query) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
     
 }
+
