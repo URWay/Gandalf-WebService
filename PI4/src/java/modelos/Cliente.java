@@ -1,8 +1,5 @@
 package modelos;
 
-/**
- * @author jefferson.ysantos
- */
 public class Cliente {
    private int idCliente;
    private String nomeCompletoCliente;
@@ -14,7 +11,7 @@ public class Cliente {
    private String telResidencialCliente;
    private String dtNascCliente;
    private String recebeNewsLetter;
-
+   
     public int getIdCliente() {
         return idCliente;
     }
@@ -22,7 +19,7 @@ public class Cliente {
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
     }
-
+    
     public String getNomeCompletoCliente() {
         return nomeCompletoCliente;
     }
@@ -30,7 +27,7 @@ public class Cliente {
     public void setNomeCompletoCliente(String nomeCompletoCliente) {
         this.nomeCompletoCliente = nomeCompletoCliente;
     }
-
+    
     public String getEmailCliente() {
         return emailCliente;
     }
@@ -38,7 +35,7 @@ public class Cliente {
     public void setEmailCliente(String emailCliente) {
         this.emailCliente = emailCliente;
     }
-
+    
     public String getSenhaCliente() {
         return senhaCliente;
     }
@@ -46,7 +43,7 @@ public class Cliente {
     public void setSenhaCliente(String senhaCliente) {
         this.senhaCliente = senhaCliente;
     }
-
+    
     public String getCPFCliente() {
         return CPFCliente;
     }
@@ -54,7 +51,7 @@ public class Cliente {
     public void setCPFCliente(String CPFCliente) {
         this.CPFCliente = CPFCliente;
     }
-
+    
     public String getCelularCliente() {
         return celularCliente;
     }
