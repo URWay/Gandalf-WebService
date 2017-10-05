@@ -8,7 +8,7 @@ public class Produto {
    
     private int idProduto;
     private String nomeProduto;
-    private double descProduto;
+    private String descProduto;
     private double precProduto;
     private double descontoPromocao;
     private int idCategoria;
@@ -33,11 +33,11 @@ public class Produto {
         this.nomeProduto = nomeProduto;
     }
 
-    public double getDescProduto() {
+    public String getDescProduto() {
         return descProduto;
     }
 
-    public void setDescProduto(double descProduto) {
+    public void setDescProduto(String descProduto) {
         this.descProduto = descProduto;
     }
 
