@@ -9,23 +9,22 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.PathParam;
 
 import modelos.Cliente;
 import com.google.gson.Gson;
-import javax.ws.rs.DELETE;
-import static javax.ws.rs.HttpMethod.DELETE;
-import static javax.ws.rs.HttpMethod.PUT;
 
 @Path("/cliente")
 public class Clientes {
     
     @GET
-    @Path("/gete/{idCliente}")
+    @Path("/get/{idCliente}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCliente(@QueryParam("idCliente") String idCliente) throws Exception{
+    public Response getCliente(@PathParam("idCliente") String idCliente) throws Exception{
+        
         String id = idCliente;
         Cliente c = null;
         
@@ -101,9 +100,9 @@ public class Clientes {
                 ps.setString(9, cliente.getRecebeNewsLetter());
 
                 if(ps.executeUpdate() > 0){
-                    return Response.status(200).entity("").build();
+                    return Response.status(200).entity(cliente).build();
                 } else {
-                    return Response.status(500).entity(null).build();
+                    return Response.status(406).entity(cliente).build();
                 }
 
             } catch(Exception ex){
@@ -116,7 +115,7 @@ public class Clientes {
     }
     
     @POST
-    @Path("/atualizar/{idCliente}")
+    @Path("/atualizar")
     @Consumes(MediaType.APPLICATION_JSON) 
     public Response alterarUsuario(Cliente cliente){
         
@@ -152,7 +151,7 @@ public class Clientes {
                 if(ps.executeUpdate() > 0){
                     return Response.status(200).entity(cliente).build();
                 } else {
-                    return Response.status(406).entity("").build();
+                    return Response.status(406).entity(cliente).build();
                 }
                 
             } catch(Exception ex){
@@ -166,7 +165,7 @@ public class Clientes {
     }
     
     @DELETE
-    @Path("/deletar/{idCliente}")
+    @Path("/deletar")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteCliente(Cliente cliente){
         
