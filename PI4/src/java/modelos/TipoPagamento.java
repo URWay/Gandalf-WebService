@@ -1,9 +1,6 @@
 package modelos;
 
-/**
- * @author jefferson.ysantos
- */
-public class TipoParamento {
+public class TipoPagamento {
    private int idTipoPagto;
    private String descTipoPagto;
 

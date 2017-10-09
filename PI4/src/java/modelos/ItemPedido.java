@@ -1,8 +1,5 @@
 package modelos;
 
-/**
- * @author jefferson.ysantos
- */
 public class ItemPedido {
    private int idProduto;
    private int idPedido;

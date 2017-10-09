@@ -3,6 +3,7 @@ package controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,6 +19,7 @@ public class LoginWS {
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response Login(Cliente cliente) throws Exception {
         // Validações do Login
         SecurityLogin s = new SecurityLogin();
