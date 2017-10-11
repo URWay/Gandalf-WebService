@@ -3,7 +3,6 @@ package controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -58,6 +57,12 @@ public class Clientes {
         } else {
             return Response.status(200).entity(c).build();
         }
+    }
+    
+    @GET
+    @Path("/teste")
+    public String getTeste(){
+        return "Olá";
     }
     
     @POST
