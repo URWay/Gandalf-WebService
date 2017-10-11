@@ -42,9 +42,7 @@ public class SecurityLogin {
     
     public boolean validaUsuario(Cliente cliente){
         boolean retorno = true;
-        Gson gson = new Gson();
-        String json = gson.toJson(cliente);
-        Login login = gson.fromJson(json, Login.class);
+        Login login = new Login();
         
         if(!login.getEmailCliente().equals("") && !login.getSenhaCliente().equals("")){
             retorno = false;
