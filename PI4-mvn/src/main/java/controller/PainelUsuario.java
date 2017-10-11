@@ -1,12 +1,10 @@
 package controller;
 
-import com.google.gson.Gson;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -83,12 +81,7 @@ public class PainelUsuario {
             
             while(rs.next()){
                 // Lista de pedidos
-                pedidos.get(0).setIdPedido(rs.getInt(""));
-                
-                Gson gson = new Gson();
-                String jsonPedido = gson.toJson(pedidos);
-                pedido = gson.fromJson(jsonPedido, Pedido.class);
-                
+                pedidos.get(0).setIdPedido(rs.getInt(""));              
             }
             
             return Response.status(200).entity(pedido).build();
@@ -113,10 +106,7 @@ public class PainelUsuario {
             StatusPedido status = new StatusPedido();
             TipoPagamento pagamento = new TipoPagamento();
             Pedido pedido = new Pedido();
-            
-                
-            
-            
+         
         }
         
         return Response.status(401).entity("").build();
