@@ -1,2 +1,2 @@
-# Gandalf-WebService
-WebService para e-commerce "Gandalf". Desenvolvido para servir de back end para o aplicativo Android. Projeto Integrador do 4º Semestre de TSI.
+# PI-4
+Um webservice de ecommerce com servlets e um Aplicativo Android que irá consumi-lo
