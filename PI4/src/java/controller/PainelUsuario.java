@@ -79,7 +79,7 @@ public class PainelUsuario {
             
             ResultSet rs = ps.executeQuery();
             
-            List<String> pedidos = new ArrayList<String>();
+            List<ItemPedido> pedidos = new ArrayList<ItemPedido>();
             
             while(rs.next()){
                 // Lista de pedidos
@@ -96,8 +96,6 @@ public class PainelUsuario {
         } catch(Exception ex){
             return Response.status(500).entity(null).build();
         }
-        
-        return Response.status(401).entity("").build();
     }
     
     @GET
