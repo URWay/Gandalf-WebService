@@ -1,7 +1,7 @@
 package security;
 
 import controller.Clientes;
-import controller.Conexao;
+import modelos.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,11 +42,13 @@ public class SecurityLogin {
     
     public boolean validaUsuario(Cliente cliente){
         boolean retorno = true;
-        Login login = new Login();
+      //  Gson gson = new Gson();
+        //String json = gson.toJson(cliente);
+        //Login login = gson.fromJson(json, Login.class);
         
-        if(!login.getEmailCliente().equals("") && !login.getSenhaCliente().equals("")){
+      //  if(!login.getEmailCliente().equals("") && !login.getSenhaCliente().equals("")){
             retorno = false;
-        }
+       // }
         
         return retorno;
     }

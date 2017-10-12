@@ -9,16 +9,7 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>Produto</display-name>
-    <servlet-name>Produto</servlet-name>
-    <servlet-class>br.com.senac.tsi.pi4.ProdutoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Produto</servlet-name>
-    <url-pattern>/produto</url-pattern>
-  </servlet-mapping>
+
   
   
   <servlet>
@@ -26,7 +17,7 @@
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>br.com.senac.tsi.pi4.services</param-value>
+			<param-value>controller</param-value>
 		</init-param>
 		<init-param>
 	        <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
@@ -38,7 +29,7 @@
 
 	<servlet-mapping>
 		<servlet-name>jersey-serlvet</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
+		<url-pattern>/wb/*</url-pattern>
 	</servlet-mapping>
   
   

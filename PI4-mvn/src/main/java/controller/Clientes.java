@@ -1,8 +1,10 @@
 package controller;
 
+import modelos.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,6 +16,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.PathParam;
 
 import modelos.Cliente;
+
 
 @Path("/cliente")
 public class Clientes {
@@ -59,51 +62,56 @@ public class Clientes {
         }
     }
     
-    @GET
-    @Path("/teste")
-    public String getTeste(){
-        return "Olá";
-    }
-    
     @POST
     @Path("/inserir")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response inserirUsuario(Cliente cliente){
+    public Response inserirUsuario(List<Cliente> c){
         
-        String sql = "INSERT INTO cliente ("
-                + "nomeCompletoCliente, "
-                + "emailCliente, "
-                + "senhaCliente,"
-                + "CPFCliente,"
-                + "celularCliente,"
-                + "telComercialCliente,"
-                + "telResidencialCliente,"
-                + "dtNascCliente,"
-                + "receberNewsLetter)"
-                + "VALUES(?,?,?,?,?,?,?,?,?)";
+        if(c.size() > 0) {
+           // Gson gson = new Gson();
+          //  String jsonCliente = gson.toJson(c.get(0));
+          //  
+            // Recebendo os dados via Json e adicionando na Classe Cliente
+            //Cliente cliente = gson.fromJson(jsonCliente, Cliente.class);
 
-        try {
-            Connection con = Conexao.get().conn();
+            String sql = "INSERT INTO cliente ("
+                    + "nomeCompletoCliente, "
+                    + "emailCliente, "
+                    + "senhaCliente,"
+                    + "CPFCliente,"
+                    + "celularCliente,"
+                    + "telComercialCliente,"
+                    + "telResidencialCliente,"
+                    + "dtNascCliente,"
+                    + "receberNewsLetter)"
+                    + "VALUES(?,?,?,?,?,?,?,?,?)";
 
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, cliente.getNomeCompletoCliente());
-            ps.setString(2, cliente.getEmailCliente()); 
-            ps.setString(3, cliente.getSenhaCliente());
-            ps.setString(4, cliente.getCPFCliente());
-            ps.setString(5, cliente.getCelularCliente());
-            ps.setString(6, cliente.getTelComercialCliente());
-            ps.setString(7, cliente.getTelResidencialCliente());
-            ps.setString(8, cliente.getDtNascCliente());
-            ps.setString(9, cliente.getRecebeNewsLetter());
+            try {
+                Connection con = Conexao.get().conn();
+                
+                PreparedStatement ps = con.prepareStatement(sql);
+         //       ps.setString(1, cliente.getNomeCompletoCliente());
+           //     ps.setString(2, cliente.getEmailCliente()); 
+             //   ps.setString(3, cliente.getSenhaCliente());
+          //      ps.setString(4, cliente.getCPFCliente());
+           //     ps.setString(5, cliente.getCelularCliente());
+            //    ps.setString(6, cliente.getTelComercialCliente());
+             //   ps.setString(7, cliente.getTelResidencialCliente());
+              //  ps.setString(8, cliente.getDtNascCliente());
+              //  ps.setString(9, cliente.getRecebeNewsLetter());
 
-            if(ps.executeUpdate() > 0){
-                return Response.status(200).entity(cliente).build();
-            } else {
-                return Response.status(406).entity(cliente).build();
+                if(ps.executeUpdate() > 0){
+                   return Response.status(200).entity("").build();
+                } else {
+                    return Response.status(406).entity("").build();
+                }
+
+            } catch(Exception ex){
+                return Response.status(500).entity(null).build();
             }
 
-        } catch(Exception ex){
-            return Response.status(500).entity(null).build();
+        } else {
+            return Response.status(406).entity("").build();
         }
     }
     

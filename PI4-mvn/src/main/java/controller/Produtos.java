@@ -1,5 +1,6 @@
 package controller;
 
+import modelos.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelos.Produto;
+
+
+
 @Path("/produtos")
 public class Produtos {
     
@@ -36,7 +40,7 @@ public class Produtos {
 
            String query = "SELECT"
                             + "idProduto, nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
-                            + "FROM Produtos"
+                            + "FROM Produto"
                             + "WHERE idCategoria = ?";
            
            preparedStatement = con.prepareStatement(query);
