@@ -34,14 +34,20 @@ public class Produtos {
            Connection con = Conexao.get().conn();
            int i = 0;
        
-
            PreparedStatement preparedStatement = null;
 
-
-           String query = "SELECT"
-                            + "idProduto, nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
-                            + "FROM Produto"
-                            + "WHERE idCategoria = ?";
+           String query = "SELECT idProduto, "
+                            + "nomeProduto, "
+                            + "descProduto, "
+                            + "precProduto, "
+                            + "descontoPromocao, "
+                            + "idCategoria, "
+                            + "ativoProduto, "
+                            + "idUsuario, "
+                            + "qtdMinEstoque, "
+                            + "imagem "
+                          + "FROM Produto "
+                          + " WHERE idCategoria = ?";
            
            preparedStatement = con.prepareStatement(query);
            preparedStatement.setInt(1,Integer.parseInt(cat));

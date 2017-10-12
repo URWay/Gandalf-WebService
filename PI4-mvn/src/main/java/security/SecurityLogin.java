@@ -29,10 +29,7 @@ public class SecurityLogin {
             String senha = rs.getString("senhaCliente");
             String id = rs.getString("idCliente");
             
-            if(!email.equals("") && !senha.equals("") ){
-                Clientes cliente = new Clientes();
-                // resgata o cliente logado
-                //cliente.getCliente(id);              
+            if(!email.equals("") && !senha.equals("") ){          
                 retorno = true;
             }
         }

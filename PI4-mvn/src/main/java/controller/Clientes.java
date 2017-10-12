@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 
 import modelos.Cliente;
@@ -22,7 +23,7 @@ import modelos.Cliente;
 public class Clientes {
     
     @GET
-    @Path("/get/{idCliente}")
+    @Path("/{idCliente}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCliente(@PathParam("idCliente") String idCliente) throws Exception{
         
@@ -115,7 +116,7 @@ public class Clientes {
         }
     }
     
-    @POST
+    @PUT
     @Path("/atualizar")
     @Consumes(MediaType.APPLICATION_JSON) 
     public Response alterarUsuario(Cliente cliente){

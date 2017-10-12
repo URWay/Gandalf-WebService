@@ -14,7 +14,7 @@ public class Conexao {
     }
     public Connection conn () throws Exception {
         String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-        String user = "TSI";
+        String user = "TSI@gandalf-pi.database.windows.net";
         String password = "SistemasInternet123";
         String url = String.format("jdbc:sqlserver://gandalf-pi.database.windows.net;database=gandalf");
 
