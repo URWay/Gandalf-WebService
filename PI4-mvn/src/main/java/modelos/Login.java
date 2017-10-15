@@ -2,8 +2,13 @@ package modelos;
 
 public class Login {
     private String emailCliente;
-    private String senhaCliente;   
+    private String senhaCliente;
 
+    public Login(String emailCliente, String senhaCliente) {
+        this.emailCliente = emailCliente;
+        this.senhaCliente = senhaCliente;
+    }
+    
     public String getEmailCliente() {
         return emailCliente;
     }
