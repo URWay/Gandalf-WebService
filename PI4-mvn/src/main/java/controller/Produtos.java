@@ -24,11 +24,15 @@ public class Produtos {
     
     // RETORNA TODOS OS PRODUTOS DA CATEGORIA
     @GET
-    @Path("/categoria/{param}")
+    @Path("/categoria/{param}/{order}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProdutos(@PathParam("param") String cat) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         List<Produto> retorno = new ArrayList<Produto>();
+        
+        if(order.isEmpty()){
+            order = "idProduto DESC";
+        }
         
         try{
            Connection con = Conexao.get().conn();
@@ -47,10 +51,12 @@ public class Produtos {
                             + "qtdMinEstoque, "
                             + "imagem "
                           + "FROM Produto "
-                          + " WHERE idCategoria = ?";
+                          + "WHERE idCategoria = ?"
+                          + "ORDER BY ? ";
            
            preparedStatement = con.prepareStatement(query);
            preparedStatement.setInt(1,Integer.parseInt(cat));
+           preparedStatement.setString(2,order);
 
            ResultSet rs = preparedStatement.executeQuery();
           
@@ -85,38 +91,47 @@ public class Produtos {
     @GET
     @Path("/{param}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getProduto(@PathParam("param") String id){
-        String retorno = "";
+    public Response getProduto(@PathParam("param") String id){
+        Produto prod = new Produto();
         try{
-             Connection con = Conexao.get().conn();
-    
+            
+            Connection con = Conexao.get().conn();
+            int i = 0;
       
-        PreparedStatement preparedStatement = null;
+            PreparedStatement preparedStatement = null;
        
         
         String query = "SELECT "
                             + "nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
                             + "FROM Produtos"
-                            + "WHERE idProduto = "+id;
+                            + "WHERE idProduto = ?";
         
         preparedStatement = con.prepareStatement(query);
-	preparedStatement.setInt(1, 1001);
+	preparedStatement.setInt(1, Integer.parseInt(id));
         
         ResultSet rs = preparedStatement.executeQuery();
-          
-        while (rs.next()) {
-
-                String userid = rs.getString("nomeProduto");
-                String username = rs.getString("descProduto");
-
-               retorno += "Produto : " + userid;
-               retorno += "Descrição : " + username + "\n";
-
-        }       
+        
+            
+         
+          while (rs.next()) {
+               
+                prod.setIdProduto(rs.getInt("idProduto"));
+                prod.setNomeProduto(rs.getString("nomeProduto"));
+                prod.setDescProduto(rs.getString("descProduto"));
+                prod.setPrecProduto(rs.getDouble("precProduto"));
+                prod.setDescontoPromocao(rs.getDouble("descontoPromocao"));
+                prod.setIdCategoria(rs.getInt("idCategoria"));
+                prod.setAtivoProduto(rs.getString("ativoProduto"));
+                prod.setIdUsuario(rs.getInt("idUsuario"));
+                prod.setQtdMinEstoque(rs.getInt("qtdMinEstoque"));
+                prod.setImagem(rs.getString("imagem"));
+                i+=1;
+            }       
         
         }catch(Exception ex){
            
        }
-        return(retorno);
+     
+        return Response.status(200).entity(prod).build();
     }
 }
