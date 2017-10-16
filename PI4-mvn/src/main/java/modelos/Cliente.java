@@ -10,7 +10,7 @@ public class Cliente {
    private String telComercialCliente;
    private String telResidencialCliente;
    private String dtNascCliente;
-   private String recebeNewsLetter;
+   private int recebeNewsLetter;
    
     public int getIdCliente() {
         return idCliente;
@@ -84,11 +84,11 @@ public class Cliente {
         this.dtNascCliente = dtNascCliente;
     }
 
-    public String getRecebeNewsLetter() {
+    public int getRecebeNewsLetter() {
         return recebeNewsLetter;
     }
 
-    public void setRecebeNewsLetter(String recebeNewsLetter) {
+    public void setRecebeNewsLetter(int recebeNewsLetter) {
         this.recebeNewsLetter = recebeNewsLetter;
     }
 }
