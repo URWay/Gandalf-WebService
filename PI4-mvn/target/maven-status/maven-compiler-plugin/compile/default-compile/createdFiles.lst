@@ -9,7 +9,6 @@ modelos\Cliente.class
 modelos\Login.class
 modelos\Produto.class
 controller\Produtos.class
-modelos\PainelUsuario.class
 modelos\Estoque.class
 modelos\Endereco.class
 modelos\TipoPagamento.class
