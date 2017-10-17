@@ -24,14 +24,18 @@ public class Produtos {
     
     // RETORNA TODOS OS PRODUTOS DA CATEGORIA
     @GET
-    @Path("/categoria/{param}/{order}")
+    @Path("/{param}/{order}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         List<Produto> retorno = new ArrayList<Produto>();
         
         if(order.isEmpty()){
             order = "idProduto DESC";
+        }
+        
+        if(pesq.isEmpty()){
+            pesq = "";
         }
         
         try{
@@ -40,7 +44,8 @@ public class Produtos {
        
            PreparedStatement preparedStatement = null;
 
-           String query = "SELECT idProduto, "
+           String query = "SELECT TOP(15)"
+                            + "idProduto, "
                             + "nomeProduto, "
                             + "descProduto, "
                             + "precProduto, "
@@ -51,12 +56,15 @@ public class Produtos {
                             + "qtdMinEstoque, "
                             + "imagem "
                           + "FROM Produto "
-                          + "WHERE idCategoria = ?"
+                          + "WHERE idCategoria = ? AND idProduto > ?"
+                          + "AND nomeProduto like '%?%'"
                           + "ORDER BY ? ";
            
            preparedStatement = con.prepareStatement(query);
            preparedStatement.setInt(1,Integer.parseInt(cat));
-           preparedStatement.setString(2,order);
+           preparedStatement.setInt(2,ap);
+           preparedStatement.setString(3, pesq);
+           preparedStatement.setString(4, order);
 
            ResultSet rs = preparedStatement.executeQuery();
           
@@ -134,4 +142,7 @@ public class Produtos {
      
         return Response.status(200).entity(prod).build();
     }
+    
+    
+
 }
