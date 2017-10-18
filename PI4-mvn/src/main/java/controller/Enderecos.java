@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,10 +16,14 @@ import org.codehaus.jettison.json.JSONObject;
 
 @Path("/endereco")
 public class Enderecos {
+    public static final String[] VALUES = new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RO", "RS", "RR", "SC", "SE", "SP", "TO"};
     
     @POST 
     @Consumes(MediaType.APPLICATION_JSON)
     public Response IsValidaEndereco(String content) throws Exception{
+        
+        boolean erro = false;
+        
         // Validação de CEP
         JSONObject object = new JSONObject(content);
         Enderecos isvalida = new Enderecos();
@@ -40,21 +45,44 @@ public class Enderecos {
             String logradouro = cepWS.getString("logradouro");
            
             // Validação de UF
-            if(!uf.equals(object.getString("UFEndereco"))){
-                return Response.status(400).entity(cepWS).build();
+            if(!erro && object.getString("UFEndereco").trim().isEmpty()){
+                erro = true;
             }
-            
+            if(!erro && !uf.equals(object.getString("UFEndereco"))){
+               erro = true;
+            }         
+            if(!erro && !Arrays.asList(VALUES).contains(object.getString("UFEndereco"))){
+                erro = true;
+            }
+  
             // Validação da Cidade
-            if(!cidade.equals(object.getString("cidadeEndereco"))){
-                return Response.status(400).entity(cepWS).build();
+            if(!erro && object.getString("cidadeEndereco").trim().isEmpty()){
+                erro = true;
+            }
+            if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
+                erro = true;
             }
             
             // Validação do logradouro
-            if(logradouro.equals(object.getString("logradouroEndereco"))){
-                return Response.status(400).entity(cepWS).build();
+            if(!erro && object.getString("logradouroEndereco").trim().isEmpty()){
+                erro = true;
+            }
+            if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
+                erro = true;
             }
             
-            return Response.ok().build();
+            //Validação do país
+            if(!erro && object.getString("paisEndereco").trim().isEmpty()){
+                erro = true;
+            }
+            if(!erro && object.getString("paisEndereco").trim().isEmpty()){
+               erro = true;
+            }
+            
+            if(erro)
+                return Response.ok().build();
+            else
+                return Response.status(404).build();
         } else {
             return Response.status(404).build();
         }
