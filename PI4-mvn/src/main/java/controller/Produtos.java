@@ -26,16 +26,14 @@ public class Produtos {
     @GET
     @Path("/{param}/{order}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq, @QueryParam("desc") int desc ) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         List<Produto> retorno = new ArrayList<Produto>();
-        
-        if(order.isEmpty()){
-            order = "idProduto DESC";
-        }
-        
-        if(pesq.isEmpty()){
-            pesq = "";
+                
+        if(pesq == null || pesq.isEmpty()){
+            pesq = "%%";
+        }else{
+            pesq = "%"+pesq+"%";
         }
         
         try{
@@ -55,16 +53,26 @@ public class Produtos {
                             + "idUsuario, "
                             + "qtdMinEstoque, "
                             + "imagem "
-                          + "FROM Produto "
-                          + "WHERE idCategoria = ? AND idProduto > ?"
-                          + "AND nomeProduto like '%?%'"
-                          + "ORDER BY ? ";
+                        + "FROM Produto "
+                        + " WHERE idCategoria = ? AND idProduto > ? AND nomeProduto like ? ";
            
+           // ORDER BY
+           if(!order.isEmpty()){
+               query = query + " ORDER BY " + order + " ";
+               if(desc == 1){
+                   query = query + "DESC";
+               }
+           }else{
+               query = query + " ORDER BY idProduto DESC ";
+           }
+                        
+           
+           // SUBSTITU 
            preparedStatement = con.prepareStatement(query);
            preparedStatement.setInt(1,Integer.parseInt(cat));
            preparedStatement.setInt(2,ap);
            preparedStatement.setString(3, pesq);
-           preparedStatement.setString(4, order);
+           //preparedStatement.setString(4, order);
 
            ResultSet rs = preparedStatement.executeQuery();
           
@@ -97,7 +105,7 @@ public class Produtos {
     
     // QUANTO SE TEM O ID - PRODUTO DETALHADO
     @GET
-    @Path("/{param}")
+    @Path("/desc/{param}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProduto(@PathParam("param") String id){
         Produto prod = new Produto();
@@ -110,13 +118,13 @@ public class Produtos {
        
         
         String query = "SELECT "
-                            + "nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
-                            + "FROM Produtos"
-                            + "WHERE idProduto = ?";
+                            + "idProduto, nomeProduto, descProduto, precProduto, descontoPromocao, idCategoria, ativoProduto, idUsuario, qtdMinEstoque, imagem "
+                            + "FROM Produto"
+                            + " WHERE idProduto = ?";
         
         preparedStatement = con.prepareStatement(query);
 	preparedStatement.setInt(1, Integer.parseInt(id));
-        
+       
         ResultSet rs = preparedStatement.executeQuery();
         
             
