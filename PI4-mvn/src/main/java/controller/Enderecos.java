@@ -121,7 +121,7 @@ public class Enderecos {
                    + "CEPEndereco = ?, "
                    + "complementoEndereco = ?, "
                    + "cidadeEndereco = ?, "
-                   + "paisEndereo = ?, "
+                   + "paisEndereco = ?, "
                    + "UFEndereco = ? "
                    + "WHERE idEndereco = ? ";
         try {
