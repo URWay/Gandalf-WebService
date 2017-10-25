@@ -62,7 +62,7 @@ public class Checkout {
                 
                 
                 
-                
+                return Response.ok().build();
             } else {
                 return Response.status(404).build();
             }
@@ -71,7 +71,5 @@ public class Checkout {
             return Response.status(500).entity(null).build();
         }       
     }
-    
-  
-    
+        
 }
