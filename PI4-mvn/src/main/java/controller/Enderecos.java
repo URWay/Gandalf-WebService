@@ -215,23 +215,32 @@ public class Enderecos {
             if(!erro && object.getString("cidadeEndereco").trim().isEmpty()){
                 erro = true;
             }
+
              /*if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
                 erro = true;
             }*/
+
+            //if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
+                //erro = true;
+            //}
+
             
             // Validação do logradouro
             if(!erro && object.getString("logradouroEndereco").trim().isEmpty()){
                 erro = true;
             }
+
             /* if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
                 erro = true;
             }    */  
+
+            //if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
+                //erro = true;
+            //}
+
             //Validação do país
             if(!erro && object.getString("paisEndereco").trim().isEmpty()){
                 erro = true;
-            }
-            if(!erro && object.getString("paisEndereco").trim().isEmpty()){
-               erro = true;
             }
         }else{
             erro = true;
