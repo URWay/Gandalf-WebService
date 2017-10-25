@@ -38,9 +38,9 @@ public class Enderecos {
         // Validação de CEP
         JSONObject object = new JSONObject(content);
         
-        if(!isValid(object)){
+   /*     if(!isValid(object)){
             return Response.status(404).build();
-        }
+        }*/
         sql = "INSERT INTO Endereco ("
                    + "idCliente, "
                    + "nomeEndereco, "
@@ -220,9 +220,6 @@ public class Enderecos {
                 erro = true;
             }*/
 
-            //if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
-                //erro = true;
-            //}
 
             
             // Validação do logradouro
@@ -233,10 +230,6 @@ public class Enderecos {
             /* if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
                 erro = true;
             }    */  
-
-            //if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
-                //erro = true;
-            //}
 
             //Validação do país
             if(!erro && object.getString("paisEndereco").trim().isEmpty()){
