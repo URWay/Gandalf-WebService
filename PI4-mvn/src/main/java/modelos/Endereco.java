@@ -12,7 +12,7 @@ public class Endereco {
    private String CEPEndereco;
    private String complementoEndereco;
    private String cidadeEndereco;
-   private String paisEndereo;
+   private String paisEndereco;
    private String UFEndereco;
 
     public int getIdEndereco() {
@@ -80,11 +80,11 @@ public class Endereco {
     }
 
     public String getPaisEndereo() {
-        return paisEndereo;
+        return paisEndereco;
     }
 
     public void setPaisEndereo(String paisEndereo) {
-        this.paisEndereo = paisEndereo;
+        this.paisEndereco = paisEndereo;
     }
 
     public String getUFEndereco() {

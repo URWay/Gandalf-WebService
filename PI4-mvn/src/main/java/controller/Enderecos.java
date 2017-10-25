@@ -34,13 +34,12 @@ public class Enderecos {
     public Response setEndereco(String content) throws Exception{
         
         String sql = "";
-               
         // Validação de CEP
         JSONObject object = new JSONObject(content);
         
-   /*     if(!isValid(object)){
+        if(!isValid(object)){
             return Response.status(404).build();
-        }*/
+        }   
         sql = "INSERT INTO Endereco ("
                    + "idCliente, "
                    + "nomeEndereco, "
@@ -49,12 +48,12 @@ public class Enderecos {
                    + "CEPEndereco, "
                    + "complementoEndereco, "
                    + "cidadeEndereco, "
-                   + "paisEndereo, "
+                   + "paisEndereco, "
                    + "UFEndereco) "
                    + "VALUES(?,?,?,?,?,?,?,?,?)";
         try {
             Connection con = Conexao.get().conn();
-
+  
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, object.getInt("idCliente"));
             ps.setString(2, object.getString("nomeEndereco")); 
@@ -63,9 +62,10 @@ public class Enderecos {
             ps.setString(5, object.getString("CEPEndereco"));
             ps.setString(6, object.getString("complementoEndereco"));
             ps.setString(7, object.getString("cidadeEndereco"));
-            ps.setString(8, object.getString("paisEndereo"));
+            ps.setString(8, object.getString("paisEndereco"));
             ps.setString(9, object.getString("UFEndereco"));
-
+           
+            
             if(ps.executeUpdate() > 0){
                return Response.ok().build();
             } else {
