@@ -42,23 +42,8 @@ public class PainelUsuario {
                 + "FROM Cliente AS cli "
                 + "LEFT JOIN Endereco AS end ON end.idCliente = ped.idEndereco ";
         
-        // Será exibido apenas se houver algum pedido recente (30 dias)
-        Produto produto = new Produto();
-        ItemPedido item = new ItemPedido();
-        StatusPedido status = new StatusPedido();
-        Pedido pedido = new Pedido();
-        
-        String sqlPedido = "SELECT item.qtdProduto, item.precoVendaItem,"
-                + "ped.dataPedido,"
-                + "sta.descStatus,"
-                + "pag.descTipoPagto,"
-                + "pro.nomeProduto, pro.descProduto, pro.precoProduto, pro.descontoPromocao, pro.imagem"
-                + "FROM itemPedido AS item "
-                + "LEFT JOIN Pedido AS ped ON ped.idPedido = item.idPedido "
-                + "LEFT JOIN StatusPedido AS sta ON sta.idStatus = ped.idStatus "
-                + "LEFT JOIN TipoPagamento AS pag ON pag.idTipoPagto = ped.idTipoPagto"
-                + "LEFT JOIN Produto AS pro ON pro.idProduto = item.idProduto "
-                + "WHERE ped.dataPedido = DATEDIFF(day, getdate(), ped.dataPedido-30) AND ped.idCliente = ?";
+      
+      
         
         List<String> minhaConta = new ArrayList<>();
         
