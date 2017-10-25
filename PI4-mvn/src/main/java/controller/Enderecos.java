@@ -204,9 +204,9 @@ public class Enderecos {
             if(!erro && object.getString("UFEndereco").trim().isEmpty()){
                 erro = true;
             }
-            if(!erro && !uf.equals(object.getString("UFEndereco"))){
+            /*if(!erro && !uf.equals(object.getString("UFEndereco"))){
                erro = true;
-            }         
+            }        */ 
             if(!erro && !Arrays.asList(VALUES).contains(object.getString("UFEndereco"))){
                 erro = true;
             }
@@ -215,17 +215,17 @@ public class Enderecos {
             if(!erro && object.getString("cidadeEndereco").trim().isEmpty()){
                 erro = true;
             }
-            if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
+             /*if(!erro && !cidade.equals(object.getString("cidadeEndereco"))){
                 erro = true;
-            }
+            }*/
             
             // Validação do logradouro
             if(!erro && object.getString("logradouroEndereco").trim().isEmpty()){
                 erro = true;
             }
-            if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
+            /* if(!erro && logradouro.equals(object.getString("logradouroEndereco"))){
                 erro = true;
-            }      
+            }    */  
             //Validação do país
             if(!erro && object.getString("paisEndereco").trim().isEmpty()){
                 erro = true;
