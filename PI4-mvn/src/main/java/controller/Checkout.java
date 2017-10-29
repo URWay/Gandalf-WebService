@@ -36,6 +36,10 @@ public class Checkout {
             return Response.status(400).build();
         }
         
+        if(!isValid(object)){
+            return Response.status(400).build();
+        }
+        
         String sql = "INSERT INTO cliente ("
                 + "idCliente, "
                 + "idStatus, "
@@ -57,11 +61,7 @@ public class Checkout {
             ps.setInt(6, object.getInt("idAplicativo"));
 
             int lastId = ps.executeUpdate();
-            if(lastId > 0){
-               
-                
-                
-                
+            if(lastId > 0){                     
                 return Response.ok().build();
             } else {
                 return Response.status(404).build();
@@ -70,6 +70,17 @@ public class Checkout {
         } catch(Exception ex){
             return Response.status(500).entity(null).build();
         }       
+    }
+    
+    
+    
+    public boolean isValid(JSONObject content){
+        boolean erro = true;
+        
+        //Valida cartão
+        
+        return erro;
+              
     }
         
 }

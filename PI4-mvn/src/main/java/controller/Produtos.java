@@ -24,9 +24,9 @@ public class Produtos {
     
     // RETORNA TODOS OS PRODUTOS DA CATEGORIA
     @GET
-    @Path("/{param}/{order}")
+    @Path("/{param}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProdutos(@PathParam("param") String cat, @PathParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq, @QueryParam("desc") int desc ) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    public Response getProdutos(@PathParam("param") String cat, @QueryParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq, @QueryParam("desc") int desc ) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
         List<Produto> retorno = new ArrayList<Produto>();
                 
