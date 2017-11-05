@@ -1,9 +1,5 @@
 package modelos;
 
-/**
- * @author jefferson.ysantos
- */
-
 public class Produto {
    
     private int idProduto;
@@ -15,7 +11,7 @@ public class Produto {
     private String ativoProduto;
     private int idUsuario;
     private int qtdMinEstoque;
-    private String imagem;
+    private byte[] imagem;
 
     public int getIdProduto() {
         return idProduto;
@@ -89,13 +85,12 @@ public class Produto {
         this.qtdMinEstoque = qtdMinEstoque;
     }
 
-    public String getImagem() {
+    public byte[] getImagem() {
         return imagem;
     }
 
-    public void setImagem(String imagem) {
+    public void setImagem(byte[] imagem) {
         this.imagem = imagem;
     }
-    
     
 }
