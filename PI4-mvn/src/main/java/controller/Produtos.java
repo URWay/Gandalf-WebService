@@ -28,7 +28,7 @@ public class Produtos {
         
         List<Produto> retorno = new ArrayList<>();
                 
-        if(pesq == null || pesq.isEmpty()){
+       if(pesq == null || pesq.isEmpty()){
             pesq = "%%";
         }else{
             pesq = "%"+pesq+"%";
@@ -52,26 +52,25 @@ public class Produtos {
                             + "qtdMinEstoque, "
                             + "imagem "
                         + "FROM Produto "
-                        + " WHERE idCategoria = ? AND idProduto > ? AND nomeProduto like ? ";
+                        + " WHERE idCategoria = ? AND idProduto > ? AND nomeProduto like ?";
            
            // ORDER BY
-           if(!order.isEmpty()){
-               query = query + " ORDER BY " + order + " ";
+           if(order != null){
+              query = query + " ORDER BY " + order + " ";
                if(desc == 1){
                    query = query + "DESC";
                }
            }else{
                query = query + " ORDER BY idProduto DESC ";
-           }
-                        
+          }
+                     
            
            // SUBSTITU 
            preparedStatement = con.prepareStatement(query);
            preparedStatement.setInt(1,Integer.parseInt(cat));
            preparedStatement.setInt(2,ap);
            preparedStatement.setString(3, pesq);
-           //preparedStatement.setString(4, order);
-
+           
            ResultSet rs = preparedStatement.executeQuery();
           
             while (rs.next()) {
