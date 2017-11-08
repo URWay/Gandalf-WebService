@@ -97,7 +97,8 @@ public class Clientes {
             ps.setString(7, object.getString("telResidencialCliente"));
             ps.setString(8, object.getString("dtNascCliente"));
             ps.setInt(9, object.getInt("recebeNewsLetter"));
-
+            
+            // Verificar se já exite email igual
             if(ps.executeUpdate() > 0){
                return Response.ok().build();
             } else {

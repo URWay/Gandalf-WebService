@@ -33,9 +33,9 @@ public class LoginWS {
         try {
             // Validção Login
             if(s.validaLogin(login)){
-                return Response.status(200).build();
+                return Response.status(200).entity(login).build();
             } else {
-                return Response.status(400).build();
+                return Response.status(400).entity(null).build();
             }
         } catch(Exception ex){
             return Response.status(500).entity(null).build();

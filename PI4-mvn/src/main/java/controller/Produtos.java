@@ -17,8 +17,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelos.Produto;
 
-
-
 @Path("/produtos")
 public class Produtos {
     
@@ -28,7 +26,7 @@ public class Produtos {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProdutos(@PathParam("param") String cat, @QueryParam("order") String order, @QueryParam("ap") int ap, @QueryParam("pesq") String pesq, @QueryParam("desc") int desc ) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
         
-        List<Produto> retorno = new ArrayList<Produto>();
+        List<Produto> retorno = new ArrayList<>();
                 
         if(pesq == null || pesq.isEmpty()){
             pesq = "%%";
@@ -87,7 +85,7 @@ public class Produtos {
                 retorno.get(i).setAtivoProduto(rs.getString("ativoProduto"));
                 retorno.get(i).setIdUsuario(rs.getInt("idUsuario"));
                 retorno.get(i).setQtdMinEstoque(rs.getInt("qtdMinEstoque"));
-                retorno.get(i).setImagem(rs.getString("imagem"));
+                retorno.get(i).setImagem(rs.getBytes("imagem"));
                 i+=1;
             }       
         
@@ -140,17 +138,14 @@ public class Produtos {
                 prod.setAtivoProduto(rs.getString("ativoProduto"));
                 prod.setIdUsuario(rs.getInt("idUsuario"));
                 prod.setQtdMinEstoque(rs.getInt("qtdMinEstoque"));
-                prod.setImagem(rs.getString("imagem"));
+                prod.setImagem(rs.getBytes("imagem"));
                 i+=1;
             }       
         
         }catch(Exception ex){
            
-       }
-     
+        }
+        
         return Response.status(200).entity(prod).build();
     }
-    
-    
-
 }
