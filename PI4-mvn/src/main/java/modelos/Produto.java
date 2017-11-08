@@ -11,7 +11,7 @@ public class Produto {
     private String ativoProduto;
     private int idUsuario;
     private int qtdMinEstoque;
-    private byte[] imagem;
+    private String imagem;
 
     public int getIdProduto() {
         return idProduto;
@@ -85,11 +85,11 @@ public class Produto {
         this.qtdMinEstoque = qtdMinEstoque;
     }
 
-    public byte[] getImagem() {
+    public String getImagem() {
         return imagem;
     }
 
-    public void setImagem(byte[] imagem) {
+    public void setImagem(String imagem) {
         this.imagem = imagem;
     }
     

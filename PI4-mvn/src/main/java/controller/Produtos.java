@@ -1,12 +1,13 @@
 package controller;
 
+
 import modelos.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Base64;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -84,7 +85,7 @@ public class Produtos {
                 retorno.get(i).setAtivoProduto(rs.getString("ativoProduto"));
                 retorno.get(i).setIdUsuario(rs.getInt("idUsuario"));
                 retorno.get(i).setQtdMinEstoque(rs.getInt("qtdMinEstoque"));
-                retorno.get(i).setImagem(rs.getBytes("imagem"));
+                retorno.get(i).setImagem(Base64.getEncoder().encodeToString(rs.getBytes("imagem")));
                 i+=1;
             }       
         
@@ -137,7 +138,7 @@ public class Produtos {
                 prod.setAtivoProduto(rs.getString("ativoProduto"));
                 prod.setIdUsuario(rs.getInt("idUsuario"));
                 prod.setQtdMinEstoque(rs.getInt("qtdMinEstoque"));
-                prod.setImagem(rs.getBytes("imagem"));
+                prod.setImagem(Base64.getEncoder().encodeToString(rs.getBytes("imagem")));
                 i+=1;
             }       
         
