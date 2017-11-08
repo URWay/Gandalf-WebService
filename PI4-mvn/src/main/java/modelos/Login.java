@@ -3,10 +3,20 @@ package modelos;
 public class Login {
     private String emailCliente;
     private String senhaCliente;
+    private int idCliente;
 
-    public Login(String emailCliente, String senhaCliente) {
+    public Login(String emailCliente, String senhaCliente, int idCliente) {
         this.emailCliente = emailCliente;
         this.senhaCliente = senhaCliente;
+        this.idCliente = idCliente;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
     
     public String getEmailCliente() {

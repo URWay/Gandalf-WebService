@@ -20,7 +20,7 @@ public class LoginWS {
        String email = object.getString("emailCliente");
        String senha = object.getString("senhaCliente");
        
-       Login login = new Login(email, senha);
+       Login login = new Login(email, senha, 0);
        
        // Validações do Login
        SecurityLogin s = new SecurityLogin();
