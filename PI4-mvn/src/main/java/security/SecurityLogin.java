@@ -27,11 +27,11 @@ public class SecurityLogin {
             String senha = rs.getString("senhaCliente");
             int id = rs.getInt("idCliente");
             
-            if(!email.equals("") && !senha.equals("") ){          
-                retorno = true;
+            if(!email.equals("") && !senha.equals("") ){
                 login.setEmailCliente(email); 
-                login.setSenhaCliente(email); 
+                login.setSenhaCliente(senha); 
                 login.setIdCliente(id);
+                retorno = true;
             }
         }
         
