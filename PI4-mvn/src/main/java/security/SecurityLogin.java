@@ -30,7 +30,7 @@ public class SecurityLogin {
             if(!email.equals("") && !senha.equals("") ){          
                 retorno = true;
                 login.setEmailCliente(email); 
-                login.setSenhaCliente(email); 
+                login.setSenhaCliente(senha); 
                 login.setIdCliente(id);
             }
         }

@@ -40,7 +40,7 @@ public class LoginWS {
                 return Response.status(400).entity(null).build();
             }
         } catch(Exception ex){
-            return Response.status(500).entity(null).build();
+            return Response.status(404).entity(null).build();
         }
     } 
 }

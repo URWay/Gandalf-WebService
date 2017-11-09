@@ -11,14 +11,6 @@ public class Login {
         this.idCliente = idCliente;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
-    
     public String getEmailCliente() {
         return emailCliente;
     }
@@ -34,4 +26,17 @@ public class Login {
     public void setSenhaCliente(String senhaCliente) {
         this.senhaCliente = senhaCliente;
     }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+    
+    
+    
+   
+
 }
