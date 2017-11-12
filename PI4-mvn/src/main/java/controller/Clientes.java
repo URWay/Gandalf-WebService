@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 
 import modelos.Cliente;
+import modelos.Login;
 import org.codehaus.jettison.json.JSONObject;
 
 @Path("/cliente")
@@ -40,6 +41,7 @@ public class Clientes {
                 if(rs.next()){
                     c = new Cliente();
                     c.setIdCliente(rs.getInt("idCliente"));
+                    c.setSenhaCliente("senhaCliente");
                     c.setNomeCompletoCliente(rs.getString("nomeCompletoCliente"));
                     c.setEmailCliente(rs.getString("emailCliente"));
                     c.setCPFCliente(rs.getString("CPFCliente"));
@@ -98,9 +100,13 @@ public class Clientes {
             ps.setString(8, object.getString("dtNascCliente"));
             ps.setInt(9, object.getInt("recebeNewsLetter"));
             
-            // Verificar se já exite email igual
+            String email = object.getString("emailCliente");
+            String senha = object.getString("senhaCliente");
+            
+            Login login = new Login(email, senha, 0);
+            
             if(ps.executeUpdate() > 0){
-               return Response.ok().build();
+               return Response.ok(login).build();
             } else {
                 return Response.status(404).build();
             }
@@ -110,10 +116,33 @@ public class Clientes {
         }       
     }
     
+    @POST
+    @Path("/isEmail")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response isEmail(String email) throws Exception{
+        // Verificar se já exite email igual
+        JSONObject object = new JSONObject(email);
+        String sqlemail = "SELECT emailCliente FROM Cliente WHERE emailCliente = ?";
+        
+        try {
+            Connection con = Conexao.get().conn();
+            PreparedStatement ps = con.prepareStatement(sqlemail);
+            ps.setString(1, object.getString("emailCliente"));
+             if(ps.executeUpdate() > 0){
+                return Response.ok().build();
+            } else {
+                 return Response.status(204).build();
+             }
+        } catch(Exception ex){
+           return Response.status(500).build();
+        }
+    }
+    
     @PUT
     @Path("/atualizar")
     @Consumes(MediaType.APPLICATION_JSON) 
     public Response alterarUsuario(String content) throws Exception{
+                
         JSONObject object = new JSONObject(content);
         
         if (!object.isNull(content)){
