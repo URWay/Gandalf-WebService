@@ -41,7 +41,7 @@ public class Clientes {
                 if(rs.next()){
                     c = new Cliente();
                     c.setIdCliente(rs.getInt("idCliente"));
-                    c.setSenhaCliente("senhaCliente");
+                    c.setSenhaCliente(rs.getString("senhaCliente"));
                     c.setNomeCompletoCliente(rs.getString("nomeCompletoCliente"));
                     c.setEmailCliente(rs.getString("emailCliente"));
                     c.setCPFCliente(rs.getString("CPFCliente"));
