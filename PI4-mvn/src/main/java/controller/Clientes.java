@@ -66,6 +66,7 @@ public class Clientes {
     
     @POST
     @Path("/inserir")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response inserirUsuario(String content) throws Exception{
         JSONObject object = new JSONObject(content);
@@ -73,6 +74,11 @@ public class Clientes {
         if (!object.isNull(content)){
             return Response.status(400).build();
         }
+        
+        String email = object.getString("emailCliente");
+        String senha = object.getString("senhaCliente");
+       
+        Login login = new Login(email, senha, 0);
         
         String sql = "INSERT INTO cliente ("
                 + "nomeCompletoCliente, "
@@ -99,14 +105,9 @@ public class Clientes {
             ps.setString(7, object.getString("telResidencialCliente"));
             ps.setString(8, object.getString("dtNascCliente"));
             ps.setInt(9, object.getInt("recebeNewsLetter"));
-            
-            String email = object.getString("emailCliente");
-            String senha = object.getString("senhaCliente");
-            
-            Login login = new Login(email, senha, 0);
-            
+       
             if(ps.executeUpdate() > 0){
-               return Response.ok(login).build();
+                return Response.status(200).entity(login).build();
             } else {
                 return Response.status(404).build();
             }
@@ -121,21 +122,27 @@ public class Clientes {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response isEmail(String email) throws Exception{
         // Verificar se já exite email igual
-        JSONObject object = new JSONObject(email);
-        String sqlemail = "SELECT emailCliente FROM Cliente WHERE emailCliente = ?";
-        
         try {
+            JSONObject object = new JSONObject(email);
             Connection con = Conexao.get().conn();
-            PreparedStatement ps = con.prepareStatement(sqlemail);
-            ps.setString(1, object.getString("emailCliente"));
-             if(ps.executeUpdate() > 0){
-                return Response.ok().build();
-            } else {
-                 return Response.status(204).build();
-             }
+            
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT emailCliente FROM Cliente WHERE emailCliente = ?");
+            preparedStatement.setString(1, object.getString("emailCliente"));
+            ResultSet rs = preparedStatement.executeQuery();
+            
+            if(rs != null){
+                if(rs.next()){
+                    return Response.ok().build();
+                }else {
+                    return Response.status(204).build();
+                }
+            }   
+            
         } catch(Exception ex){
            return Response.status(500).build();
         }
+        
+        return Response.status(404).build();
     }
     
     @PUT
