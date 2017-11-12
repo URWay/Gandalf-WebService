@@ -40,7 +40,7 @@ public class Checkout {
             return Response.status(400).build();
         }
         
-        String sql = "INSERT INTO cliente ("
+        String sql = "INSERT INTO pedido ("
                 + "idCliente, "
                 + "idStatus, "
                 + "dataPedido, "
@@ -71,16 +71,17 @@ public class Checkout {
             return Response.status(500).entity(null).build();
         }       
     }
+
     
     
-    
-    public boolean isValid(JSONObject content){
-        boolean erro = true;
-        
-        //Valida cartão
-        
-        return erro;
-              
+    //Not needed
+    public boolean isValid(JSONObject content)throws Exception{
+        boolean erro = true;       
+        //Valida cartão - Não precisa
+       return erro;      
     }
+    
+    
+    
         
 }
