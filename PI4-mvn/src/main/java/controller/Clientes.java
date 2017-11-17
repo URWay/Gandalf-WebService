@@ -2,8 +2,13 @@ package controller;
 
 import modelos.Conexao;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +22,7 @@ import javax.ws.rs.PathParam;
 
 import modelos.Cliente;
 import modelos.Login;
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 @Path("/cliente")
@@ -40,6 +46,11 @@ public class Clientes {
             if(rs != null){
                 if(rs.next()){
                     c = new Cliente();
+                       
+                    Date date = new Date(rs.getTimestamp("dtNascCliente").getTime());
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    String dateString = sdf.format(date);
+                    
                     c.setIdCliente(rs.getInt("idCliente"));
                     c.setSenhaCliente(rs.getString("senhaCliente"));
                     c.setNomeCompletoCliente(rs.getString("nomeCompletoCliente"));
@@ -48,7 +59,7 @@ public class Clientes {
                     c.setCelularCliente(rs.getString("celularCliente"));
                     c.setTelComercialCliente(rs.getString("telComercialCliente"));
                     c.setTelResidencialCliente(rs.getString("telResidencialCliente"));
-                    c.setDtNascCliente(rs.getString("dtNascCliente"));
+                    c.setDtNascCliente(dateString);
                     c.setRecebeNewsLetter(rs.getInt("recebeNewsLetter"));
                 }
             }   
@@ -94,24 +105,36 @@ public class Clientes {
         
         try {
             Connection con = Conexao.get().conn();
-
+                
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, object.getString("nomeCompletoCliente"));
-            ps.setString(2, object.getString("emailCliente")); 
-            ps.setString(3, object.getString("senhaCliente"));
-            ps.setString(4, object.getString("CPFCliente"));
-            ps.setString(5, object.getString("celularCliente"));
-            ps.setString(6, object.getString("telComercialCliente"));
-            ps.setString(7, object.getString("telResidencialCliente"));
-            ps.setString(8, object.getString("dtNascCliente"));
-            ps.setInt(9, object.getInt("recebeNewsLetter"));
-       
-            if(ps.executeUpdate() > 0){
-                return Response.status(200).entity(login).build();
-            } else {
-                return Response.status(404).build();
-            }
+            
+            String dataString = object.getString("dtNascCliente");
+            
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date data = (Date) sdf.parse(dataString);
+                Timestamp timestamp = new Timestamp(data.getTime());
+                
+                ps.setString(1, object.getString("nomeCompletoCliente"));
+                ps.setString(2, object.getString("emailCliente")); 
+                ps.setString(3, object.getString("senhaCliente"));
+                ps.setString(4, object.getString("CPFCliente"));
+                ps.setString(5, object.getString("celularCliente"));
+                ps.setString(6, object.getString("telComercialCliente"));
+                ps.setString(7, object.getString("telResidencialCliente"));
+                ps.setTimestamp(8, timestamp);
+                ps.setInt(9, object.getInt("recebeNewsLetter"));
+                
+                if(ps.executeUpdate() > 0){
+                    return Response.status(200).entity(login).build();
+                } else {
+                    return Response.status(404).build();
+                }
 
+            } catch(SQLException | ParseException | JSONException ex){
+                return Response.status(204).entity(null).build();
+            }
+       
         } catch(Exception ex){
             return Response.status(500).entity(null).build();
         }       

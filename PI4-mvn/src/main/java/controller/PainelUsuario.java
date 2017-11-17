@@ -34,7 +34,7 @@ public class PainelUsuario {
         // e os dados de entrega
         
         Cliente cliente = new Cliente();
-        Endereco endereco = new Endereco();
+        //Endereco endereco = new Endereco();
         
         String sql = "SELECT cli.idCliente, cli.nomeCompletoCliente,"
                 + "end.idEndereco, end.nomeEndereco, end.numeroEndereco, end.CEPEndereco, end.cidadeEndereco,"
@@ -148,7 +148,7 @@ public class PainelUsuario {
         return Response.status(200).build();
     }
     
-    @GET
+    /*@GET
     @Path("/enderecos/{param}")
     public Response getEnderecos(@PathParam("param") String id){
         
@@ -190,6 +190,6 @@ public class PainelUsuario {
         } catch(Exception ex){
             return Response.status(500).entity(null).build();
         }
-    }
+    }*/
     
 }

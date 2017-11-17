@@ -17,17 +17,61 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import modelos.Cliente;
 import modelos.Conexao;
 import modelos.Endereco;
-import modelos.Produto;
+
 import org.codehaus.jettison.json.JSONObject;
 
 @Path("/endereco")
 public class Enderecos {
     public static final String[] VALUES = new String[] { "AC", "AL", "AM", "AP", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RO", "RS", "RR", "SC", "SE", "SP", "TO"};
+    
+    @GET
+    @Path("/{param}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEndereco(@PathParam("param") String id) throws Exception {
+        Endereco end = null;
+        
+        if(!id.equals("0")){
+            try {
+                Connection con = Conexao.get().conn();
+                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM Endereco WHERE idEndereco = ?");
+                preparedStatement.setInt(1, Integer.parseInt(id));
+                ResultSet rs = preparedStatement.executeQuery();
+                
+                if(rs != null){
+                    if(rs.next()){
+                        int idEndereco = rs.getInt("idEndereco");
+                        int idCliente = rs.getInt("idCliente");
+                        String nomeEndereco = rs.getString("nomeEndereco");
+                        String logradouroEndereco = rs.getString("logradouroEndereco");
+                        int numeroEndereco = rs.getInt("numeroEndereco");
+                        String CEPEndereco = rs.getString("CEPEndereco");
+                        String complementoEndereco = rs.getString("complementoEndereco");
+                        String cidadeEndereco = rs.getString("cidadeEndereco");
+                        String paisEndereco = rs.getString("paisEndereco");
+                        String UFEndereco = rs.getString("UFEndereco");
+                        
+                        end = new Endereco(idEndereco, idCliente, nomeEndereco, logradouroEndereco, numeroEndereco, CEPEndereco, complementoEndereco, cidadeEndereco, paisEndereco, UFEndereco);
+                    }
+                }
+                
+            } catch(Exception ex){
+                return Response.status(500).entity(null).build();
+            }
+        }
+            
+        if(end == null) {
+            return Response.status(406).entity(end).build();
+        } else {
+            return Response.status(200).entity(end).build();
+        }
+    }
+    
     
     @POST 
     @Consumes(MediaType.APPLICATION_JSON)

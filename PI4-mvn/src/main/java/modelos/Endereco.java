@@ -15,6 +15,19 @@ public class Endereco {
    private String paisEndereco;
    private String UFEndereco;
 
+    public Endereco(int idEndereco, int idCliente, String nomeEndereco, String logradouroEndereco, int numeroEndereco, String CEPEndereco, String complementoEndereco, String cidadeEndereco, String paisEndereco, String UFEndereco) {
+        this.idEndereco = idEndereco;
+        this.idCliente = idCliente;
+        this.nomeEndereco = nomeEndereco;
+        this.logradouroEndereco = logradouroEndereco;
+        this.numeroEndereco = numeroEndereco;
+        this.CEPEndereco = CEPEndereco;
+        this.complementoEndereco = complementoEndereco;
+        this.cidadeEndereco = cidadeEndereco;
+        this.paisEndereco = paisEndereco;
+        this.UFEndereco = UFEndereco;
+    }
+   
     public int getIdEndereco() {
         return idEndereco;
     }
