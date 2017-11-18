@@ -72,6 +72,51 @@ public class Enderecos {
         }
     }
     
+    @GET
+    @Path("/all/{param}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAll(@PathParam("param") String id) throws Exception {
+        List<Endereco> retorno = new ArrayList<>();
+        
+        if(!id.equals("0")){
+            try {
+                Connection con = Conexao.get().conn();
+                PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM Endereco WHERE idCliente = ?");
+                preparedStatement.setInt(1, Integer.parseInt(id));
+                ResultSet rs = preparedStatement.executeQuery();
+                
+                if(rs != null){
+                    while (rs.next()) {
+                        int idEndereco = rs.getInt("idEndereco");
+                        int idCliente = rs.getInt("idCliente");
+                        String nomeEndereco = rs.getString("nomeEndereco");
+                        String logradouroEndereco = rs.getString("logradouroEndereco");
+                        int numeroEndereco = rs.getInt("numeroEndereco");
+                        String CEPEndereco = rs.getString("CEPEndereco");
+                        String complementoEndereco = rs.getString("complementoEndereco");
+                        String cidadeEndereco = rs.getString("cidadeEndereco");
+                        String paisEndereco = rs.getString("paisEndereco");
+                        String UFEndereco = rs.getString("UFEndereco");
+                        try{
+                            Endereco end = new Endereco(idEndereco, idCliente, nomeEndereco, logradouroEndereco, numeroEndereco, CEPEndereco, complementoEndereco, cidadeEndereco, paisEndereco, UFEndereco);
+                            retorno.add(end);
+                        } catch(Exception ex){
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+                }
+                
+            } catch(Exception ex){
+                return Response.status(500).entity(null).build();
+            }
+        }
+            
+        if(retorno.size() < 1) {
+            return Response.status(404).entity(retorno).build();
+        } else {
+            return Response.status(200).entity(retorno).build();
+        }
+    }
     
     @POST 
     @Consumes(MediaType.APPLICATION_JSON)
@@ -219,7 +264,6 @@ public class Enderecos {
             return Response.status(406).build();
         }
     }
-    
     
     public boolean isValid(JSONObject object)throws Exception{
          Enderecos isvalida = new Enderecos();
