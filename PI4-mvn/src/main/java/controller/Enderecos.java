@@ -223,7 +223,7 @@ public class Enderecos {
             ps.setString(4, object.getString("CEPEndereco"));
             ps.setString(5, object.getString("complementoEndereco"));
             ps.setString(6, object.getString("cidadeEndereco"));
-            ps.setString(7, object.getString("paisEndereo"));
+            ps.setString(7, object.getString("paisEndereco"));
             ps.setString(8, object.getString("UFEndereco"));
             ps.setInt(9, object.getInt("idEndereco"));
 
