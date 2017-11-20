@@ -53,7 +53,12 @@ public class Produtos {
                             + "qtdMinEstoque, "
                             + "imagem "
                         + "FROM Produto "
-                        + " WHERE idCategoria = ? AND idProduto > ? AND nomeProduto like ?";
+                        + " WHERE idProduto > ? AND nomeProduto like ?";
+           
+           //trazer todos 
+           if(Integer.parseInt(cat) == 0){
+               query = query + "AND idCategoria = ?";
+           }
            
            // ORDER BY
            if(order != null){
@@ -68,9 +73,13 @@ public class Produtos {
            
            // SUBSTITU 
            preparedStatement = con.prepareStatement(query);
-           preparedStatement.setInt(1,Integer.parseInt(cat));
-           preparedStatement.setInt(2,ap);
-           preparedStatement.setString(3, pesq);
+           
+           preparedStatement.setInt(1,ap);
+           preparedStatement.setString(2, pesq);
+           
+           if(Integer.parseInt(cat) == 0){
+            preparedStatement.setInt(3,Integer.parseInt(cat));
+           }
            
            ResultSet rs = preparedStatement.executeQuery();
           
