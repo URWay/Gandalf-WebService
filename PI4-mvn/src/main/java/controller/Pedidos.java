@@ -24,6 +24,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class Pedidos {
     @GET
     @Path("/single/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response onePedido(@PathParam("id") String id){
        
         if(id.isEmpty()){
@@ -40,8 +41,8 @@ public class Pedidos {
 
            String query = "SELECT "
                             + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao, iped.precoVendaItem, iped.qtdProduto, prod.nomeProduto, prod.descProduto, prod.imagem "
-                            + "FROM Pedido ped INNER JOIN ItemPedido iped on iped.idPedido = ped.idPedido INNER JOIN Produtos prod ON prod.idProduto = iped.idProduto"
-                            + " WHERE idPedido = ?";
+                            + "FROM Pedido ped INNER JOIN ItemPedido iped on iped.idPedido = ped.idPedido INNER JOIN Produto prod ON prod.idProduto = iped.idProduto"
+                            + " WHERE ped.idPedido = ?";
                      
            // SUBSTITUI 
            preparedStatement = con.prepareStatement(query);
@@ -81,6 +82,7 @@ public class Pedidos {
     
     @GET
     @Path("/all/{id}")
+     @Produces(MediaType.APPLICATION_JSON)
     public Response allPedido(@PathParam("id") String id){
         List<Pedido> retorno = new ArrayList<>();
         
@@ -94,9 +96,9 @@ public class Pedidos {
             PreparedStatement preparedStatement = null;
 
             String query = "SELECT "
-                            + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao"
+                            + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao "
                             + "FROM Pedido ped "
-                            + " WHERE idCliente = ?";
+                            + " WHERE ped.idCliente = ?";
            
             // SUBSTITU 
             preparedStatement = con.prepareStatement(query);
