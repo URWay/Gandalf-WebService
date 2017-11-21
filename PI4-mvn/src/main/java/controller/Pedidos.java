@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.sql.Connection;
@@ -25,13 +20,10 @@ import modelos.PedidosItens;
 import modelos.Produto;
 import org.codehaus.jettison.json.JSONObject;
 
-/**
- *
- * @author augus
- */
+@Path("/pedido")
 public class Pedidos {
     @GET
-    @Path("/pedido/single/{id}")
+    @Path("/single/{id}")
     public Response onePedido(@PathParam("id") String id){
        
         if(id.isEmpty()){
@@ -88,45 +80,47 @@ public class Pedidos {
     }
     
     @GET
-    @Path("/pedido/all/{id}")
+    @Path("/all/{id}")
     public Response allPedido(@PathParam("id") String id){
-       Pedido retorno = new Pedido();
+        List<Pedido> retorno = new ArrayList<>();
+        
         if(id.isEmpty()){
             return Response.status(400).build();
         }
         
-          try{
-           Connection con = Conexao.get().conn();
-           int i = 0;
-       
-           PreparedStatement preparedStatement = null;
+        try{
+            Connection con = Conexao.get().conn();
+            
+            PreparedStatement preparedStatement = null;
 
-           String query = "SELECT "
+            String query = "SELECT "
                             + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao"
                             + "FROM Pedido ped "
-                            + " WHERE idPedido = ?";
+                            + " WHERE idCliente = ?";
            
-           
-           // SUBSTITU 
-           preparedStatement = con.prepareStatement(query);
-           preparedStatement.setInt(1,Integer.parseInt(id));
-
-
-           ResultSet rs = preparedStatement.executeQuery();
+            // SUBSTITU 
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setInt(1,Integer.parseInt(id));
+            ResultSet rs = preparedStatement.executeQuery();
           
+            int i = 0;
+            
             while (rs.next()) {
-                retorno.setIdPedido(rs.getInt("idPedido"));
-                retorno.setIdCliente(rs.getInt("idCliente"));
-                retorno.setIdStatus(rs.getInt("idStatus"));
-                retorno.setDataPedido(rs.getString("dataPedido"));
-                retorno.setIdTipoPagto(rs.getInt("idTipoPagto"));
-                retorno.setIdEndereco(rs.getInt("idEndereco"));
-                retorno.setIdAplicacao(rs.getInt("idAplicacao"));
-                    
+                retorno.add(new Pedido());
+                retorno.get(i).setIdPedido(rs.getInt("idPedido"));
+                retorno.get(i).setIdCliente(rs.getInt("idCliente"));
+                retorno.get(i).setIdStatus(rs.getInt("idStatus"));
+                retorno.get(i).setDataPedido(rs.getString("dataPedido"));
+                retorno.get(i).setIdTipoPagto(rs.getInt("idTipoPagto"));
+                retorno.get(i).setIdEndereco(rs.getInt("idEndereco"));
+                retorno.get(i).setIdAplicacao(rs.getInt("idAplicacao"));
+                i++;
             }       
-             return Response.status(200).entity(retorno).build();
+            
+            return Response.status(200).entity(retorno).build();
         }catch(Exception ex){
-            return Response.status(404).entity(retorno).build();
+            System.out.println(ex.getMessage());
+            return Response.status(500).entity(null).build();
         }
        
     }
