@@ -1,38 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 import modelos.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.PUT;
-import javax.ws.rs.PathParam;
-
-import modelos.Cliente;
+import modelos.Pedido;
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
-
-
 
 @Path("/checkout")
 public class Checkout {
        
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response inserirUsuario(String content) throws Exception{
+    public Response insertPedido(String content) throws Exception{
         JSONObject object = new JSONObject(content);
         
-        if (object.isNull(content)){
+        if (!object.isNull(content)){
             return Response.status(400).build();
         }
         
@@ -46,33 +36,90 @@ public class Checkout {
                 + "dataPedido, "
                 + "idTipoPagto, "
                 + "idEndereco, "
-                + "idAplicativo) "
+                + "idAplicacao) "
                 + "VALUES(?,?,?,?,?,?)";
         
         try {
             Connection con = Conexao.get().conn();
 
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, object.getInt("idCliente"));
             ps.setInt(2, object.getInt("idStatus")); 
             ps.setString(3, object.getString("dataPedido"));
             ps.setInt(4, object.getInt("idTipoPagto"));
             ps.setInt(5, object.getInt("idEndereco"));
-            ps.setInt(6, object.getInt("idAplicativo"));
+            ps.setInt(6, object.getInt("idAplicacao"));
+            
+            if(ps.executeUpdate() > 0){
+                
+                ResultSet generatedKeysResultSet = ps.getGeneratedKeys();
+                
+                generatedKeysResultSet.next(); 
+                long id = generatedKeysResultSet.getLong(1);
 
-            int lastId = ps.executeUpdate();
-            if(lastId > 0){                     
+                // Retorno do pedido
+                Pedido pedido = new Pedido();
+                pedido.setIdPedido((int)id);
+                pedido.setIdCliente(object.getInt("idCliente"));
+                pedido.setIdStatus(object.getInt("idStatus"));
+                pedido.setDataPedido(object.getString("dataPedido"));
+                pedido.setIdTipoPagto(object.getInt("idTipoPagto"));
+                pedido.setIdEndereco(object.getInt("idEndereco"));
+                pedido.setIdAplicacao(object.getInt("idAplicacao"));
+                
+                return Response.ok(pedido).build();
+            } else {
+                return Response.status(404).build();
+            }
+
+        } catch(Exception ex){
+            System.out.println(ex.getMessage());
+            return Response.status(500).entity(null).build();
+        }       
+    }
+
+    @POST
+    @Path("/inserirItem")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response inserirItemPedido(String content) throws Exception{
+        JSONArray object = new JSONArray(content);
+        
+        int qtdInseridos = 0;
+        
+        String sql = "INSERT INTO itemPedido ("
+                + "idProduto, "
+                + "idPedido, "
+                + "qtdProduto, "
+                + "precoVendaItem) "
+                + "VALUES(?,?,?,?)";
+        
+        try {
+            
+            for(int i = 0; i < object.length(); i++){
+                Connection con = Conexao.get().conn();
+
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setInt(1, object.getJSONObject(i).getInt("idProduto"));
+                ps.setInt(2, object.getJSONObject(i).getInt("idPedido")); 
+                ps.setInt(3, object.getJSONObject(i).getInt("qtdProduto"));
+                ps.setDouble(4, object.getJSONObject(i).getDouble("precoVendaItem"));
+                
+                if(ps.executeUpdate() > 0){
+                    qtdInseridos++;
+                }
+            }
+            
+            if(qtdInseridos == object.length() || qtdInseridos > 0){
                 return Response.ok().build();
             } else {
                 return Response.status(404).build();
             }
 
         } catch(Exception ex){
+            System.out.println(ex.getMessage());
             return Response.status(500).entity(null).build();
         }       
     }
-
-    
     
     //Not needed
     public boolean isValid(JSONObject content)throws Exception{
