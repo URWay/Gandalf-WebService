@@ -56,8 +56,8 @@ public class Produtos {
                         + " WHERE idProduto > ? AND nomeProduto like ?";
            
            //trazer todos 
-           if(Integer.parseInt(cat) == 0){
-               query = query + "AND idCategoria = ?";
+           if(Integer.parseInt(cat) != 0){
+               query = query + " AND idCategoria = ?";
            }
            
            // ORDER BY
@@ -77,8 +77,8 @@ public class Produtos {
            preparedStatement.setInt(1,ap);
            preparedStatement.setString(2, pesq);
            
-           if(Integer.parseInt(cat) == 0){
-            preparedStatement.setInt(3,Integer.parseInt(cat));
+           if(Integer.parseInt(cat) != 0){
+                preparedStatement.setInt(3,Integer.parseInt(cat));
            }
            
            ResultSet rs = preparedStatement.executeQuery();
