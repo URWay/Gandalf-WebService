@@ -57,7 +57,9 @@ public class Produtos {
            
            //trazer todos 
            if(Integer.parseInt(cat) != 0){
+
                query = query + " AND idCategoria = ?";
+
            }
            
            // ORDER BY
