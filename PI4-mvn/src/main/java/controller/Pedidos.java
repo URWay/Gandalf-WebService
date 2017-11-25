@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -40,8 +41,12 @@ public class Pedidos {
            PreparedStatement preparedStatement = null;
 
            String query = "SELECT "
-                            + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao, iped.precoVendaItem, iped.qtdProduto, prod.nomeProduto, prod.descProduto, prod.imagem "
-                            + "FROM Pedido ped INNER JOIN ItemPedido iped on iped.idPedido = ped.idPedido INNER JOIN Produto prod ON prod.idProduto = iped.idProduto"
+                            + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, "
+                            + "ped.idAplicacao, iped.precoVendaItem, iped.qtdProduto, prod.nomeProduto, prod.descProduto, prod.imagem, sta.descStatus "
+                            + "FROM Pedido ped "
+                            + "INNER JOIN ItemPedido iped on iped.idPedido = ped.idPedido "
+                            + "INNER JOIN Produto prod ON prod.idProduto = iped.idProduto "
+                            + "INNER JOIN StatusPedido sta ON sta.idStatus = ped.idStatus"
                             + " WHERE ped.idCliente = ?";
                      
            // SUBSTITUI 
@@ -64,7 +69,8 @@ public class Pedidos {
                 retorno.get(i).setQtdProduto(rs.getInt("qtdProduto"));
                 retorno.get(i).setNomeProduto(rs.getString("nomeProduto"));
                 retorno.get(i).setDescProduto(rs.getString("descProduto"));
-                retorno.get(i).setImagem(rs.getString("imagem"));
+                retorno.get(i).setDescStatus(rs.getString("descStatus"));
+                retorno.get(i).setImagem(Base64.getEncoder().encodeToString(rs.getBytes("imagem")));
                              
                 i+=1;
             }       

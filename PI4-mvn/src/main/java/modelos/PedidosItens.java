@@ -29,7 +29,16 @@ public class PedidosItens {
     private int idUsuario;
     private int qtdMinEstoque;
     private String imagem;
+    private String descStatus;
 
+    public String getDescStatus() {
+        return descStatus;
+    }
+
+    public void setDescStatus(String descStatus) {
+        this.descStatus = descStatus;
+    }
+    
     public int getIdPedido() {
         return idPedido;
     }
