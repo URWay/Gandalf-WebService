@@ -23,7 +23,7 @@ import org.codehaus.jettison.json.JSONObject;
 @Path("/pedido")
 public class Pedidos {
     @GET
-    @Path("/single/{id}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response onePedido(@PathParam("id") String id){
        
@@ -42,7 +42,7 @@ public class Pedidos {
            String query = "SELECT "
                             + "ped.idPedido, ped.idCliente, ped.idStatus, ped.dataPedido, ped.idTipoPagto, ped.idEndereco, ped.idAplicacao, iped.precoVendaItem, iped.qtdProduto, prod.nomeProduto, prod.descProduto, prod.imagem "
                             + "FROM Pedido ped INNER JOIN ItemPedido iped on iped.idPedido = ped.idPedido INNER JOIN Produto prod ON prod.idProduto = iped.idProduto"
-                            + " WHERE ped.idPedido = ?";
+                            + " WHERE ped.idCliente = ?";
                      
            // SUBSTITUI 
            preparedStatement = con.prepareStatement(query);
